@@ -88,9 +88,19 @@ def logFC_table_construction(ag, tbl, r, c, **kwargs):
         return(tbl)
 
 # here the user is asked for the sets he need the FC within his data
-R = list(map(str, input("What is your resitant group name: ").split()))
-C = str(input("What is your control group name: "))
-S = str(input("What is your susceptible group name(write na if unexistant): "))
+# here the user is asked for the sets he need the FC within his data
+quest = input('do you have multiple  resistant group yes or no: ')
+
+if quest == 'no':
+    
+    R = str(input("What is your resitant group name: "))
+    C = str(input("What is your control group name: "))
+    S = str(input("What is your susceptible group name(write na if unexistant): "))
+    
+else:
+    R = list(map(str, input("What are your resitant group names: ").split()))
+    C = str(input("What is your control group name: "))
+    S = str(input("What is your susceptible group name(write na if unexistant): "))
 
 if S == 'na':
     t = logFC_table_construction(dCt_mean, logFC_table, r= R, c= C) 
