@@ -47,7 +47,7 @@ gene_list = list(set(list(dCt_m["Genes"].to_list()))) # takes all genes present 
 logFC_table = pd.DataFrame(gene_list, columns=['Genes']) # creating a onecolumn dataframe with the list obtained above
 
 # the logFC_table_construction function help into caluclating the logFC for different comparison using 
-# this formula : log2(2^((resistant dCt) - (sensisble or control dCT)))
+# this formula : log2(2^-((resistant dCt) - (sensisble or control dCT)))
 def logFC_table_construction(ag, tbl, r, c, **kwargs):
     s = kwargs.get('s', None)
  
