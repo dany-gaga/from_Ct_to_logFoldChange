@@ -19,9 +19,9 @@ file = pd.read_csv(sys.argv[1], sep=',') # sep could be change in case
 # Each new column contain a corrected value for the genes Cts, the housekepping genes 1 and 2 Cts 
 # using their respctive efficiency (efficieency corrected Ct)
 
-file['cor_Gene'], file['cor_HK1'], file['cor_HK2'] = [(file.iloc[:,3]*((np.log2(file.iloc[:,6]+1)/np.log2(2)))),
-                                                  (file.iloc[:,4]*((np.log2(file.iloc[:,7]+1)/np.log2(2)))),
-                                                  (file.iloc[:,5]*((np.log2(file.iloc[:,8]+1)/np.log2(2))))]
+file['cor_Gene'], file['cor_HK1'], file['cor_HK2'] = [(file.iloc[:,3]*((np.log(file.iloc[:,6]+1)/np.log(2)))),
+                                                  (file.iloc[:,4]*((np.log(file.iloc[:,7]+1)/np.log(2)))),
+                                                  (file.iloc[:,5]*((np.log(file.iloc[:,8]+1)/np.log(2))))]
 
 # Here the mean for each technical replicates group is calculated
 cor_ct_mean = file.groupby([file.iloc[:,0],file.iloc[:,1], file.iloc[:,2]]).aggregate(
@@ -55,17 +55,17 @@ def logFC_table_construction(ag, tbl, r, c, **kwargs):
         r_s = []
         for value in tbl.iloc[:,0]:
             if value == value:
-                r_s.append(np.log2(2**-((ag.loc[value,r]['dCt']) - (ag.loc[value,s]['dCt']))))
+                r_s.append(np.log((2**-((ag.loc[value,r]['dCt']) - (ag.loc[value,s]['dCt']))),2))
 
         c_s = []
         for value in tbl.iloc[:,0]:
             if value == value:
-                c_s.append(np.log2(2**-((ag.loc[value,c]['dCt']) - (ag.loc[value,s]['dCt']))))
+                c_s.append(np.log((2**-((ag.loc[value,c]['dCt']) - (ag.loc[value,s]['dCt']))),2))
          
         r_c = []
         for value in tbl.iloc[:,0]:
             if value == value:
-                r_c.append(np.log2(2**-((ag.loc[value,r]['dCt']) - (ag.loc[value,c]['dCt']))))
+                r_c.append(np.log((2**-((ag.loc[value,r]['dCt']) - (ag.loc[value,c]['dCt']))),2))
         
         tbl["logFC_r_c"], tbl["logFC_r_s"], tbl["logFC_c_s"] = r_c, r_s, c_s
         return(tbl)
@@ -76,14 +76,14 @@ def logFC_table_construction(ag, tbl, r, c, **kwargs):
             vn = []
             for value in tbl.iloc[:,0]:
                 if value == value:
-                    vn.append(np.log2(2**-((ag.loc[value,i]['dCt']) - (ag.loc[value,c]['dCt']))))
+                    vn.append(np.log((2**-((ag.loc[value,i]['dCt']) - (ag.loc[value,c]['dCt']))),2))
             tbl['logFC_'+str(i)] = vn
         return(tbl)
     else:
         r_c = []
         for value in tbl.iloc[:,0]:
             if value == value:
-                r_c.append(np.log2(2**-((ag.loc[value,r]['dCt']) - (ag.loc[value,c]['dCt']))))
+                r_c.append(np.log((2**-((ag.loc[value,r]['dCt']) - (ag.loc[value,c]['dCt']))),2))
         tbl["logFC_r_c"] = r_c
         return(tbl)
 
